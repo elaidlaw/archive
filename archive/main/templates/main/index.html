@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Archive{% endblock title %}
+
+{% block content %}
+<h1>Archive</h1>
+{% for item in list %}
+<li>{{ item }}</li>
+{% endfor %}
+{% endblock content %}
