@@ -128,3 +128,4 @@ dmypy.json
 # Pyre type checker
 .pyre/
 archive/config.py
+archive/main/migrations/
