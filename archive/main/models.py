@@ -26,6 +26,8 @@ class TagsOnPhoto(models.Model):
 
 class PossibleDates(models.Model):
     timeframe = models.CharField(max_length=50)
+    def __str__(self):
+        return 'Timeframe: {}'.format(self.timeframe)
     startdate = models.DateField('start date', null=True)
     enddate = models.DateField('end date', null=True)
 
