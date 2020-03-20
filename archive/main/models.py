@@ -24,6 +24,10 @@ class TagsOnPhoto(models.Model):
     photo = models.ForeignKey(Photo, on_delete=models.SET_NULL, null=True)
     tags = models.ForeignKey(Tag, on_delete=models.SET_NULL, null=True)
 
+class PossibleDates(models.Model):
+    timeframe = models.CharField(Max_length=50)
+    startdate = models.DateField('start date', null=True)
+    enddate = models.DateField('end date', null=True)
 
 
 # Create your models here.
