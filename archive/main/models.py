@@ -4,10 +4,10 @@ class Location(models.Model):
     location = models.CharField(max_length=40)
 
 class Photo(models.Model):
-    image_field = models.CharField(max_length=30)
-    start_date = models.DateTimeField('start date')
-    end_date = models.DateTimeField('end date')
-    description = models.CharField(max_length=1000)
+    image_field = models.CharField(max_length=100)
+    start_date = models.DateField('start date', null=True)
+    end_date = models.DateField('end date', null=True)
+    description = models.CharField(max_length=1000, null=True)
     location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True)
 
 class Person(models.Model):
