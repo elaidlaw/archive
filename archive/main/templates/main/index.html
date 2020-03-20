@@ -5,6 +5,7 @@
 
 {% block content %}
 <h1>Archive</h1>
+<a href="{% url 'input' %}">input data</a>
 {% for item in list %}
 <li>{{ item }}</li>
 {% endfor %}
