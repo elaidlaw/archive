@@ -14,7 +14,8 @@ $(document).ready(function() {
   people_element.before('<div id="people_list"></div>');
   var people_list_element = $('#people_list');
   var tag_template = $('.tag');
-  $('#id_date').attr('autocomplete','off');
+  start_date_element.attr('autocomplete', 'off');
+  end_date_element.attr('autocomplete', 'off');
   tags_element.attr('autocomplete','off');
   location_element.attr('autocomplete','off');
   people_element.attr('autocomplete','off');
@@ -41,7 +42,8 @@ $(document).ready(function() {
     people_element.val(JSON.stringify(people_list))
   })
 
-  $('#id_date').datepicker();
+  start_date_element.datepicker();
+  end_date_element.datepicker();
 
   function add_tag(value) {
     if (!tags_list.includes(value)) {

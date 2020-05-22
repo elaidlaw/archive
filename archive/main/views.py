@@ -28,13 +28,17 @@ def new_image_to_annotate(request):
 
     return HttpResponseRedirect(reverse('input-img', args=[photo]))
 
+def images_list(request):
+    images = Photo.objects.all()
+    
+
 def input(request, img):
+    print('hello')
     if request.method == 'POST':
         form = PhotoForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
             start_date = data['start_date']
-            print(start_date)
             end_date = data['end_date']
             if start_date != None:
                 if end_date == None:
@@ -55,6 +59,7 @@ def input(request, img):
                 end_date=end_date,
                 description=data['description'],
             )
+            photo.save();
 
             tags = json.loads(data['tags'])
             for tag in tags:
@@ -66,6 +71,8 @@ def input(request, img):
                 if len(Person.objects.filter(name=person)) == 0:
                     Person.objects.create(name=person)
                 PersonInPhoto.objects.create(person=Person.objects.get(name=person), photo=photo)
+            print(photo.start_date)
+            print(Photo.objects.get(image_field=img).start_date)
         return HttpResponseRedirect(reverse('input'))
 
 

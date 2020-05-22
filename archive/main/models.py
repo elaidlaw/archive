@@ -5,8 +5,8 @@ class Location(models.Model):
 
 class Photo(models.Model):
     image_field = models.CharField(max_length=100)
-    start_date = models.DateField('start date', null=True)
-    end_date = models.DateField('end date', null=True)
+    start_date = models.DateField(null=True)
+    end_date = models.DateField(null=True)
     description = models.CharField(max_length=1000, null=True)
     location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True)
 
@@ -26,8 +26,8 @@ class TagsOnPhoto(models.Model):
 
 class PossibleDates(models.Model):
     timeframe = models.CharField(max_length=50)
-    startdate = models.DateField('start date', null=True)
-    enddate = models.DateField('end date', null=True)
+    startdate = models.DateField(null=True)
+    enddate = models.DateField(null=True)
 
     def __str__(self):
         return 'Timeframe: {}'.format(self.timeframe)
