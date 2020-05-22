@@ -13,7 +13,7 @@ from .forms import *
 
 photos_list = os.listdir(os.path.join(config.ARCHIVE_PATH, 'photos'))
 for photo in photos_list:
-    if len(Photo.objects.filter(image_field=photo)) > 0 || photo[0] == '.':
+    if len(Photo.objects.filter(image_field=photo)) > 0 or photo[0] == '.':
         photos_list.remove(photo)
 
 def index(request):
