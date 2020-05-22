@@ -13,12 +13,16 @@ class TagsInLine(admin.TabularInline):
     model = TagsOnPhoto
     extra = 0
 
+class PersonInLine(admin.TabularInline):
+    model = PersonInPhoto
+    extra = 0
+
 
 @admin.register(Photo)
 class PhotoAdmin(admin.ModelAdmin):
 
-    list_display = ("image_field", "location")
+    list_display = ("image_field", "location", "start_date", "end_date")
 
     inlines = [
-        TagsInLine
+        TagsInLine, PersonInLine
     ]

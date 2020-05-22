@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Archive{% endblock title %}
+
+{% block content %}
+<h1>Archive</h1>
+{% for img in images %}
+{% with 'photos/'|add:img as img_static %}
+  <img height="500px" src="{% static img_static %}">
+{% endwith %}
+{% endfor %}
+{% endblock content %}
