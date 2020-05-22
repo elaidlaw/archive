@@ -2,9 +2,10 @@ $(document).ready(function() {
   var tags = JSON.parse($('#tags').text());
   var locations = JSON.parse($('#locations').text());
   var people = JSON.parse($('#people').text());
+  var timeframes = JSON.parse($('#timeframes').text());
   var start_date_element = $('#id_start_date');
   var end_date_element = $('#id_end_date');
-  var timeframe_element = $('#id_timeframe');
+  var timeframe_element = $('#id_time_frame');
   var description_element = $('#id_description');
   var tags_element = $('#id_tags');
   var location_element = $('#id_location');
@@ -19,13 +20,14 @@ $(document).ready(function() {
   tags_element.attr('autocomplete','off');
   location_element.attr('autocomplete','off');
   people_element.attr('autocomplete','off');
+  timeframe_element.attr('autocomplete','off');
 
   var tags_list = []
   var people_list = []
 
   $('input[value="Submit"]').click(function(event) {
-    if (start_date_element.val() == '' && timeframe_element.val() == '') {
-      alert('Enter a date into either the start/end date or timeframe fields');
+    if (start_date_element.val() == '' && !timeframes.includes(timeframe_element.val())) {
+      alert('Enter a valid date into either the start/end date or timeframe fields');
       return false;
     }
     if (description_element.val() == '') {
@@ -110,11 +112,36 @@ $(document).ready(function() {
     autoFocus: true,
     source: locations,
   });
+  timeframe_element.autocomplete({
+    autoFocus: true,
+    source: timeframes,
+  });
+  location_element.keydown(function(event) {
+    if (locations.includes(location_element.val())) {
+      location_element.css('color', 'green');
+    } else {
+      location_element.css('color', 'orange');
+    }
+  });
   location_element.keyup(function(event) {
     if (locations.includes(location_element.val())) {
       location_element.css('color', 'green');
     } else {
       location_element.css('color', 'orange');
+    }
+  });
+  timeframe_element.keydown(function(event) {
+    if (timeframes.includes(timeframe_element.val())) {
+      timeframe_element.css('color', 'green');
+    } else {
+      timeframe_element.css('color', 'red');
+    }
+  });
+  timeframe_element.keyup(function(event) {
+    if (timeframes.includes(timeframe_element.val())) {
+      timeframe_element.css('color', 'green');
+    } else {
+      timeframe_element.css('color', 'red');
     }
   });
   // $('#id_location').autocomplete({

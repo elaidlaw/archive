@@ -1,11 +1,11 @@
 from django import forms
-from .models import Tag, Person, Location
+from .models import Tag, Person, Location, PossibleDates
 
 class PhotoForm(forms.Form):
     start_date = forms.DateField(required=False)
     end_date = forms.DateField(required=False)
     time_frame = forms.CharField(required=False, max_length=100)
-    description = forms.CharField(max_length=1000)
+    description = forms.CharField(max_length=1000, widget=forms.Textarea)
     location = forms.CharField(max_length=1000)
     tags = forms.CharField(max_length=1000)
     people = forms.CharField(max_length=1000)
@@ -20,3 +20,6 @@ def get_possible_locations():
 
 def get_possible_people():
     return [person.name for person in Person.objects.all()]
+
+def get_possible_time_frames():
+    return [time_frame.timeframe for time_frame in PossibleDates.objects.all()]

@@ -28,9 +28,6 @@ def new_image_to_annotate(request):
 
     return HttpResponseRedirect(reverse('input-img', args=[photo]))
 
-def images_list(request):
-    images = Photo.objects.all()
-    
 
 def input(request, img):
     print('hello')
@@ -44,8 +41,8 @@ def input(request, img):
                 if end_date == None:
                     end_date = start_date
             else:
-                if len(PossibleDates.objects.filter(timeframe=data['timeframe'])):
-                    timeframe = PossibleDates.objects.get(timeframe=data['timeframe'])
+                if len(PossibleDates.objects.filter(timeframe=data['time_frame'])):
+                    timeframe = PossibleDates.objects.get(timeframe=data['time_frame'])
                     start_date = timeframe.startdate
                     end_date = timeframe.enddate
             location = data['location']
@@ -81,5 +78,6 @@ def input(request, img):
         tags = get_possible_tags()
         people = get_possible_people()
         locations = get_possible_locations()
+        time_frames = get_possible_time_frames()
 
-    return render(request, 'main/input.html', {'form': form, 'img': img, 'tags': json.dumps(tags), 'people': json.dumps(people), 'locations': json.dumps(locations)})
+    return render(request, 'main/input.html', {'form': form, 'img': img, 'tags': json.dumps(tags), 'people': json.dumps(people), 'locations': json.dumps(locations), 'time_frames': json.dumps(time_frames)})

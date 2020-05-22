@@ -2,6 +2,8 @@ from django.db import models
 
 class Location(models.Model):
     location = models.CharField(max_length=40)
+    def __str__(self):
+        return self.location
 
 class Photo(models.Model):
     image_field = models.CharField(max_length=100)
@@ -12,9 +14,14 @@ class Photo(models.Model):
 
 class Person(models.Model):
     name = models.CharField(max_length=40)
+    def __str__(self):
+        return self.name
 
 class Tag(models.Model):
     tag = models.CharField(max_length=40)
+
+    def __str__(self):
+        return self.tag
 
 class PersonInPhoto(models.Model):
     photo = models.ForeignKey(Photo, on_delete=models.SET_NULL, null=True)

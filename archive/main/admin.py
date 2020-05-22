@@ -5,7 +5,20 @@ from .models import *
 admin.site.register(Person)
 admin.site.register(Tag)
 admin.site.register(Location)
-admin.site.register(Photo)
 admin.site.register(PersonInPhoto)
 admin.site.register(TagsOnPhoto)
 admin.site.register(PossibleDates)
+
+class TagsInLine(admin.TabularInline):
+    model = TagsOnPhoto
+    extra = 0
+
+
+@admin.register(Photo)
+class PhotoAdmin(admin.ModelAdmin):
+
+    list_display = ("image_field", "location")
+
+    inlines = [
+        TagsInLine
+    ]
