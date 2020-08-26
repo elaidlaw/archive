@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Input{% endblock title %}
+{% block scripts %}
+<script src="{% static 'main/input.js' %}">
+</script>
+{% endblock %}
+
+{% block content %}
+<form action="{% url 'search' %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit">
+</form>
+<h2>Results from the description</h2>
+{% for photo in photo_results %}
+{% with 'photos/'|add:photo.image_field as img_static %}
+  <img height="500px" src="{% static img_static %}">
+{% endwith %}
+{% endfor %}
+<h2>Results from tags</h2>
+{% for tag, photos in tag_results.items %}
+<h3>{{ tag }}</h3>
+{% for photo in photos %}
+{% with 'photos/'|add:photo.image_field as img_static %}
+  <img height="500px" src="{% static img_static %}">
+{% endwith %}
+{% endfor %}
+{% endfor %}
+{% endblock content %}

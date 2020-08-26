@@ -6,9 +6,14 @@ class PhotoForm(forms.Form):
     end_date = forms.DateField(required=False)
     time_frame = forms.CharField(required=False, max_length=100)
     description = forms.CharField(max_length=1000, widget=forms.Textarea)
+    screenshot = forms.BooleanField(required=False)
+    original = forms.BooleanField(required=False)
     location = forms.CharField(max_length=1000)
     tags = forms.CharField(max_length=1000)
     people = forms.CharField(max_length=1000)
+
+class SearchForm(forms.Form):
+    search = forms.CharField(required=False, max_length=100)
 
 
 

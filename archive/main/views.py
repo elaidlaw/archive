@@ -11,29 +11,56 @@ from .forms import *
 
 # Create your views here.
 
-photos_list = os.listdir(os.path.join(config.ARCHIVE_PATH, 'photos'))
-for photo in photos_list:
-    if len(Photo.objects.filter(image_field=photo)) > 0 or photo[0] == '.':
-        photos_list.remove(photo)
+# photos_list = os.listdir(os.path.join(config.ARCHIVE_PATH, 'photos'))
+# for photo in photos_list:
+#     if len(Photo.objects.filter(image_field=photo)) > 0 or photo[0] == '.':
+#         photos_list.remove(photo)
 
 def index(request):
-    return render(request, 'main/index.html', { 'list': photos_list })
+    return render(request, 'main/index.html', {})
 
 def new_image_to_annotate(request):
-    print(len(photos_list))
-    photo = random.choice(photos_list)
-    photos_list.remove(photo)
-    print(len(photos_list))
-    print(photos_list)
+    photo = random.choice(Photo.objects.filter(status="not done"))
+    photo.status = "in progress"
+    photo.save()
 
-    return HttpResponseRedirect(reverse('input-img', args=[photo]))
+    return HttpResponseRedirect(reverse('input-img', args=[photo.image_field]))
+
+def tags_list(request):
+    tags = Tag.objects.all()
+    tags = [(tag.tag, len(TagsOnPhoto.objects.filter(tags=tag))) for tag in tags]
+    return render(request, 'main/tags_list.html', {'tags': tags})
 
 def photos_by_tag(request, tag):
     tag = Tag.objects.get(tag=tag)
     images = [photo.photo.image_field for photo in TagsOnPhoto.objects.filter(tags=tag)]
 
-    return render(request, 'main/photos_by_tag.html', {'images': images})
+    return render(request, 'main/photos_by_tag.html', {'tag': tag, 'images': images})
 
+def search(request):
+    if request.method == 'POST':
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            photo_results = []
+            tag_results = {}
+            for token in data['search'].split():
+                photos = Photo.objects.filter(description__contains=token)
+                for photo in photos:
+                    photo_results.append(photo)
+                tags = Tag.objects.filter(tag__contains=token)
+                for tag in tags:
+                    photos = [photo.photo for photo in TagsOnPhoto.objects.filter(tags=tag)]
+                    tag_results[tag.tag] = photos
+
+            return render(request, 'main/search.html', {'photo_results': photos, 'tag_results': tag_results, 'form': form})
+
+
+
+    else:
+        form = SearchForm()
+
+        return render(request, 'main/search.html', {'photo_results': [], 'tag_results': {}, 'form': form})
 
 
 def input(request, img):
@@ -56,14 +83,16 @@ def input(request, img):
             if len(Location.objects.filter(location=location)) == 0:
                 Location.objects.create(location=location)
             location = Location.objects.get(location=location)
-            photo = Photo.objects.create(
-                image_field=img,
-                location=location,
-                start_date=start_date,
-                end_date=end_date,
-                description=data['description'],
-            )
-            photo.save();
+            photo = Photo.objects.get(image_field=img)
+            photo.status = "done"
+            photo.location = location
+            photo.start_date = start_date
+            photo.end_date = end_date
+            photo.screenshot = data['screenshot']
+            photo.original = data['original']
+            photo.description = data['description']
+            
+            photo.save()
 
             tags = json.loads(data['tags'])
             for tag in tags:

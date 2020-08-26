@@ -5,8 +5,7 @@
 
 {% block content %}
 <h1>Archive</h1>
-<a href="{% url 'input' %}">input data</a>
-{% for item in list %}
-<li>{{ item }}</li>
-{% endfor %}
+<a href="{% url 'input' %}">input data</a><br>
+<a href="{% url 'tags-list' %}">tags list</a><br>
+<a href="{% url 'search' %}">search</a><br>
 {% endblock content %}

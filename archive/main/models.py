@@ -7,9 +7,12 @@ class Location(models.Model):
 
 class Photo(models.Model):
     image_field = models.CharField(max_length=100)
+    status=models.CharField(max_length=20, default="not done")
     start_date = models.DateField(null=True)
     end_date = models.DateField(null=True)
     description = models.CharField(max_length=1000, null=True)
+    screenshot = models.BooleanField(default=False)
+    original = models.BooleanField(default=False)
     location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True)
 
 class Person(models.Model):

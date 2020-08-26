@@ -34,12 +34,17 @@ $(document).ready(function() {
       alert('Enter a description');
       return false;
     }
+    if (tags_element.val() != '' || people_element.val() != '') {
+      alert('You have to hit enter in the tags/people fields in order for them to register. When you hit submit nothing should be in the boxes');
+      return false;
+    }
     if (tags_list.length == 0 || people_list.length == 0) {
       r = confirm('Are you sure you want to submit with no tags/people?');
       if (!r) {
         return false;
       }
     }
+    
     tags_element.val(JSON.stringify(tags_list))
     people_element.val(JSON.stringify(people_list))
   })
